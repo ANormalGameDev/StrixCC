@@ -1,5 +1,6 @@
 #include <iostream>
 #include "uci.hh"
+#include "position.hh"
 
 using namespace StrixC;
 
