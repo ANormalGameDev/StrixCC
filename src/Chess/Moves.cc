@@ -3,7 +3,6 @@
 
 uint64 MoveGenerator::RookAttacks(Square square, uint64 occupancy){
     Magic& magic = RMagics[(int)square];
-    Utils::PrintBitboard(occupancy & magic.Mask);
     return magic.AttackTable[magic.GetIndexFromOccupancy(occupancy)];
 }
 

@@ -1,5 +1,5 @@
 builddir = output
-objects = $(builddir)/main.o $(builddir)/Magics.o $(builddir)/BoardsAndThreads.o $(builddir)/Moves.o $(builddir)/Bitboards.o
+objects = $(builddir)/main.o $(builddir)/Magics.o $(builddir)/Moves.o $(builddir)/Bitboards.o
 
 strixc: $(objects)
 		g++ -o strixc $(objects)
@@ -7,9 +7,6 @@ strixc: $(objects)
 
 $(builddir)/main.o: src/main.cc src/engine.hh src/Chess/Magics.hh src/Chess/BoardsAndThreads.hh src/Chess/Moves.hh
 		g++ -o$(builddir)/main.o -c src/main.cc
-
-$(builddir)/BoardsAndThreads.o: src/Chess/BoardsAndThreads.cc src/Chess/BoardsAndThreads.hh
-		g++ -o$(builddir)/BoardsAndThreads.o -c src/Chess/BoardsAndThreads.cc
 
 $(builddir)/Moves.o: src/Chess/Moves.cc src/Chess/Moves.hh src/Chess/Utils.hh src/Chess/Magics.hh src/Chess/BoardsAndThreads.hh src/engine.hh
 		g++ -o$(builddir)/Moves.o -c src/Chess/Moves.cc

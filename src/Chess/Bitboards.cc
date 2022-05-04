@@ -82,6 +82,8 @@ void InitMagics(PieceType Type, Magic *Magics, uint64 *AttackTable){
             _Magic.AttackTable[index] = Type == PieceType::ROOK ? GenerateRookAttacks(square, bb) : GenerateBishopAttacks(square, bb);
             size++;
         }
+        _Magic.AttackTable[0] = Type == PieceType::ROOK ? GenerateRookAttacks(square, 0ULL) : GenerateBishopAttacks(square, 0ULL);
+        size++;
     }
 }
 
