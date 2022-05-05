@@ -6,8 +6,8 @@
 
 class Utils {
     public:
-        static void SetBit(uint64* bb, Square square) { (*bb) |= (1ULL << (int)square); }
-        static bool GetBit(uint64 bb, Square square) { return bb & (1ULL << (int)square); }
+        static void SetBit(uint64* bb, Square square) { (*bb) |= (1ULL << square); }
+        static bool GetBit(uint64 bb, Square square) { return bb & (1ULL << square); }
         static void SetBit(uint64* bb, int square){
             if (square >= 0 && square < 64) (*bb) |= (1ULL << square);
             else return;

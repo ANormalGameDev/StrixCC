@@ -1,8 +1,8 @@
 builddir = output
 objects = $(builddir)/main.o $(builddir)/Magics.o $(builddir)/Moves.o $(builddir)/Bitboards.o
 
-strixc: $(objects)
-		g++ -o strixc $(objects)
+strixcc: $(objects)
+		g++ -o strixcc $(objects)
 		make clean
 
 $(builddir)/main.o: src/main.cc src/engine.hh src/Chess/Magics.hh src/Chess/BoardsAndThreads.hh src/Chess/Moves.hh

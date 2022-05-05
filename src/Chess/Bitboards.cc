@@ -53,7 +53,8 @@ uint64 GenerateBishopAttacks(int square, uint64 occupancy){
 
 void InitMagics(PieceType Type, Magic *Magics, uint64 *AttackTable){
     int size = 0;
-    for (int square = (int)Square::A8; square <= (int)Square::H1; square++){
+    uint64 subset;
+    for (int square = Square::A8; square <= Square::H1; square++){
         Magic& _Magic = Magics[square];
         int r, f, pf = square % 8, pr = square / 8;
         
@@ -73,17 +74,16 @@ void InitMagics(PieceType Type, Magic *Magics, uint64 *AttackTable){
         _Magic.Mask = Attacks;
         _Magic.Shift = 64 - Utils::PopCount(_Magic.Mask);
 
-        _Magic.AttackTable = square == (int)Square::A8 ? AttackTable : Magics[square - 1].AttackTable + size;
+        _Magic.AttackTable = square == Square::A8 ? AttackTable : Magics[square - 1].AttackTable + size;
         _Magic.Magic = controller.GetMagicFinder().GetMagic((Square)square, Type == PieceType::BISHOP);
 
-        size = 0;
-        for (uint64 bb = _Magic.Mask; bb; bb = (bb - 1) & _Magic.Mask){
-            uint64 index = _Magic.GetIndexFromOccupancy(bb);
-            _Magic.AttackTable[index] = Type == PieceType::ROOK ? GenerateRookAttacks(square, bb) : GenerateBishopAttacks(square, bb);
+        size = subset = 0;
+        do {
+            uint64 index = _Magic.GetIndexFromOccupancy(subset);
+            _Magic.AttackTable[index] = Type == PieceType::ROOK ? GenerateRookAttacks(square, subset) : GenerateBishopAttacks(square, subset);
             size++;
-        }
-        _Magic.AttackTable[0] = Type == PieceType::ROOK ? GenerateRookAttacks(square, 0ULL) : GenerateBishopAttacks(square, 0ULL);
-        size++;
+            subset = (subset - _Magic.Mask) & _Magic.Mask;
+        } while (subset);
     }
 }
 

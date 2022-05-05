@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define USE_32_BIT_MULTIPLICATIONS
-
 typedef unsigned long long uint64;
 
 uint64 random_uint64() {
@@ -172,9 +170,9 @@ int BBits[64] = {
 
 uint64 MagicSearch::GetMagic(Square square, bool bishop){
     if (bishop){
-      return FindMagic((int)square, BBits[(int)square], 1);
+      return FindMagic(square, BBits[square], 1);
     }
     else{
-      return FindMagic((int)square, RBits[(int)square], 0);
+      return FindMagic(square, RBits[square], 0);
     }
 }

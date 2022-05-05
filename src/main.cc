@@ -12,6 +12,6 @@ int main(){
     // Utils::SetBit(&TestOccupancy, Square::E8);
     // Utils::SetBit(&TestOccupancy, Square::F5);
     // Utils::PrintBitboard(TestOccupancy);
-    // uint64 att = controller.GetMoveGenerator().BishopAttacks(Square::D7, TestOccupancy);
+    // uint64 att = controller.GetMoveGenerator().BishopAttacks(Square::G1, TestOccupancy);
     // Utils::PrintBitboard(att);
 }
