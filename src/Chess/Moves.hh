@@ -17,12 +17,13 @@ struct Move {
 class MoveGenerator {
     private:
         Magic RMagics[64], BMagics[64];
-        uint64 RAttacks[0x19000], BAttacks[0x1480];
+        uint64 RAttacks[0x19000], BAttacks[0x1480], NAttacks[64], KAttacks[64], PAttacks[112];
     public:
         void InitMagicBitboards();
         uint64 RookAttacks(Square square, uint64 occupancy);
         uint64 BishopAttacks(Square square, uint64 occupancy);
         uint64 QueenAttacks(Square square, uint64 occupancy);
+        uint64 KnightAttacks(Square square);
         std::vector<Move> Generate(Board board);
 };
 
