@@ -168,7 +168,7 @@ int BBits[64] = {
   6, 5, 5, 5, 5, 5, 5, 6
 };
 
-uint64 MagicSearch::GetMagic(Square square, bool bishop){
+uint64 GetMagic(Square square, bool bishop){
     if (bishop){
       return FindMagic(square, BBits[square], 1);
     }

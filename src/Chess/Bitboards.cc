@@ -75,7 +75,7 @@ void InitMagics(PieceType Type, Magic *Magics, uint64 *AttackTable){
         _Magic.Shift = 64 - Utils::PopCount(_Magic.Mask);
 
         _Magic.AttackTable = square == Square::A8 ? AttackTable : Magics[square - 1].AttackTable + size;
-        _Magic.Magic = controller.GetMagicFinder().GetMagic((Square)square, Type == PieceType::BISHOP);
+        _Magic.Magic = Type == PieceType::ROOK ? _RMagicsx64[square] : _BMagicsx64[square];
 
         size = subset = 0;
         do {

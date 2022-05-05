@@ -9,9 +9,7 @@ class EngineController {
     private:
         BoardThreadManager boardThreadManager;
         MoveGenerator moveGenerator;
-        MagicSearch magicSearch;
     public:
-        MagicSearch GetMagicFinder(){ return magicSearch; }
         MoveGenerator GetMoveGenerator() { return moveGenerator; }
         void Initialize(){
             moveGenerator.InitMagicBitboards();

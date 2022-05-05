@@ -22,6 +22,7 @@ class MoveGenerator {
         void InitMagicBitboards();
         uint64 RookAttacks(Square square, uint64 occupancy);
         uint64 BishopAttacks(Square square, uint64 occupancy);
+        uint64 QueenAttacks(Square square, uint64 occupancy);
         std::vector<Move> Generate(Board board);
 };
 
