@@ -100,7 +100,7 @@ uint64 GeneratePawnAttacks(Square square, _Color color){
     uint64 Attacks = 0ULL, bb = 0ULL;
     Utils::SetBit(&bb, square);
     
-    if (color == _Color::BLACK){
+    if (color == _Color::WHITE){
         if ((bb >> 9) & NotHFile) Attacks |= (bb >> 9);
         if ((bb >> 7) & NotAFile) Attacks |= (bb >> 7);
     }
@@ -152,7 +152,7 @@ void InitAttackTable(PieceType Type, uint64* Table){
     if (Type == PieceType::PAWN){
         for (int square = Square::A7; square <= Square::H2; square++){
             Table[square] = GeneratePawnAttacks((Square)square, _Color::BLACK);
-            Table[54 + square] = GeneratePawnAttacks((Square)(square), _Color::WHITE);
+            Table[64 + square] = GeneratePawnAttacks((Square)square, _Color::WHITE);
         }
         return;
     }
