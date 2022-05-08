@@ -6,8 +6,14 @@
 #include <iostream>
 #include <stdlib.h>
 
-enum class Color : char {
-    WHITE, BLACK
+typedef unsigned long long uint64;
+
+enum class _PieceType {
+    NONE, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
+};
+
+enum class Color {
+    NONE, WHITE, BLACK
 };
 
 enum Square : int {
@@ -22,29 +28,49 @@ enum Square : int {
     _NULL
 };
 
+struct Piece {
+    Color color;
+    _PieceType type;
+    Piece(Color _color, _PieceType _type){
+        color = _color;
+        type = _type;
+    }
+    Piece(){
+        color = Color::NONE;
+        type = _PieceType::NONE;
+    }
+};
+
 class Board {
     private:
-        char pieces[64];
-        Color activeColor;
-        int halfMoveClock;
-        int fullMoveCount;
+        Piece Pieces[64];
+        Color ActiveColor = Color::WHITE;
+        bool BlackCastle, WhiteCastle;
+        Square EnPassantSquare;
+        int HalfMoveClock;
+        int FullMoveCount;
+        uint64 Occupancy;
     public:
-        char* GetPieces() { return pieces; }
-        Color GetActiveColor() { return activeColor; }
-        int GetHalfMoveClock() { return halfMoveClock; }
-        int GetFullMoveCount() { return fullMoveCount; }
+        Board(){}
+        Piece* GetPieces() { return Pieces; }
+        Color GetActiveColor() { return ActiveColor; }
+        Square GetEnPassantSquare() { return EnPassantSquare; }
+        int GetHalfMoveClock() { return HalfMoveClock; }
+        int GetFullMoveCount() { return FullMoveCount; }
+        uint64 GetOccupancy() { return Occupancy; }
+        void Load(const char* FEN);
 };
 
 class BoardThreadManager {
     private:
         std::vector<Board> boards;
-        std::vector<std::thread> threads;
         int maxThreads;
         int maxDepth;
 
         const int maxThreadsSupported = std::thread::hardware_concurrency();
         const int maxDepthAllowed = 26;
     public:
+        Board GetMainBoard(){ if (boards.size() < 1) boards.push_back(Board()); return boards[0]; } // For Testing
         void Go(Board board); // This Function will be called when the UCI Manager recieves the "go"
                               // command. This function will start all the threads and tell them all
                               // to start calculating.

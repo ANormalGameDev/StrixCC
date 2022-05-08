@@ -5,12 +5,18 @@
 #include "Magics.hh"
 #include "Utils.hh"
 
+enum class MoveType {
+    NORMAL, CAPTURE, CASTLE
+};
+
 struct Move {
-    Square from;
-    Square to;
-    Move(Square _from, Square _to){
-        from = _from;
-        to = _to;
+    MoveType Type;
+    Square From;
+    Square To;
+    Move(MoveType type, Square from, Square to){
+        Type = type;
+        From = from;
+        To = to;
     }
 };
 
@@ -26,7 +32,7 @@ class MoveGenerator {
         uint64 KnightAttacks(Square square);
         uint64 KingAttacks(Square square);
         uint64 PawnAttacks(Square square, Color color);
-        std::vector<Move> Generate(Board board);
+        std::vector<Move> GeneratePsuedoLegalMoves(Board board);
 };
 
 #endif

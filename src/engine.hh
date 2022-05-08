@@ -11,6 +11,7 @@ class EngineController {
         MoveGenerator moveGenerator;
     public:
         MoveGenerator GetMoveGenerator() { return moveGenerator; }
+        BoardThreadManager GetBoardThreadManager() { return boardThreadManager; }
         void Initialize(){
             moveGenerator.InitMagicBitboards();
         }
