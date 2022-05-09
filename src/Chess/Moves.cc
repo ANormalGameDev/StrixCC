@@ -14,21 +14,22 @@ std::vector<Move> MoveGenerator::GeneratePsuedoLegalMoves(Board board){
                 uint64 pMoves = PawnAttacks((Square)square, board.GetActiveColor());
                 while (pMoves){
                     int r = __builtin_ctzl(pMoves);
-                    if (Utils::GetBit(pMoves, r) && Pieces[r].color != Color::NONE && Pieces[r].color != board.GetActiveColor())
+                    if (Utils::GetBit(pMoves, r) && (Pieces[r].color != Color::NONE || r == board.GetEnPassantSquare()) && Pieces[r].color != board.GetActiveColor())
                         moveVec.push_back(Move(MoveType::CAPTURE, (Square)square, (Square)r));
                     pMoves ^= pMoves & -pMoves;
                 }
-                if (board.GetActiveColor() == Color::WHITE)
+                if (board.GetActiveColor() == Color::WHITE){
                     if (square - 8 >= Square::A8 && Pieces[square - 8].type == _PieceType::NONE){
                         moveVec.push_back(Move(MoveType::NORMAL, (Square)square, (Square)(square - 8)));
                         if (Utils::GetRankOf(square) == 2 && square - 16 >= Square::A8 && Pieces[square - 16].type == _PieceType::NONE){
                             moveVec.push_back(Move(MoveType::NORMAL, (Square)square, (Square)(square - 16)));
                         }
                     }
+                }
                 else if (board.GetActiveColor() == Color::BLACK){
                     if (square + 8 <= Square::H1 && Pieces[square + 8].type == _PieceType::NONE){
                         moveVec.push_back(Move(MoveType::NORMAL, (Square)square, (Square)(square + 8)));
-                        if (Utils::GetRankOf(square) == 6 && square + 16 <= Square::H1 && Pieces[square + 16].type == _PieceType::NONE){
+                        if (Utils::GetRankOf(square) == 7 && square + 16 <= Square::H1 && Pieces[square + 16].type == _PieceType::NONE){
                             moveVec.push_back(Move(MoveType::NORMAL, (Square)square, (Square)(square + 16)));
                         }
                     }
@@ -90,7 +91,7 @@ std::vector<Move> MoveGenerator::GeneratePsuedoLegalMoves(Board board){
             // Queen Moves
             case _PieceType::QUEEN:
             {
-                uint64 qMoves = BishopAttacks((Square)square, board.GetOccupancy());
+                uint64 qMoves = QueenAttacks((Square)square, board.GetOccupancy());
                 while (qMoves){
                     int r = __builtin_ctzl(qMoves);
                     if (Utils::GetBit(qMoves, r) && Pieces[r].color != board.GetActiveColor()){
@@ -125,8 +126,7 @@ std::vector<Move> MoveGenerator::GeneratePsuedoLegalMoves(Board board){
     return moveVec;
 }
 
-
-
+// Piece Attack Generation Functions
 uint64 MoveGenerator::RookAttacks(Square square, uint64 occupancy){
     Magic& magic = RMagics[square];
     return magic.AttackTable[magic.GetIndexFromOccupancy(occupancy)];

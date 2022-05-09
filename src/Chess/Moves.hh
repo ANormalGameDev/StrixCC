@@ -32,6 +32,14 @@ class MoveGenerator {
         uint64 KnightAttacks(Square square);
         uint64 KingAttacks(Square square);
         uint64 PawnAttacks(Square square, Color color);
+        uint64 PieceAttacks(Square square, _PieceType type, Color color, uint64 occupancy){
+            if (type == _PieceType::NONE) return 0ULL;
+            return  (type == _PieceType::PAWN ? PawnAttacks(square, color) :
+                    (type == _PieceType::KNIGHT ? KnightAttacks(square) :
+                    (type == _PieceType::BISHOP ? BishopAttacks(square, occupancy) :
+                    (type == _PieceType::ROOK ? RookAttacks(square, occupancy) :
+                    (type == _PieceType::QUEEN ? QueenAttacks(square, occupancy) : KingAttacks(square))))));
+        };
         std::vector<Move> GeneratePsuedoLegalMoves(Board board);
 };
 

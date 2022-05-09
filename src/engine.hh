@@ -5,15 +5,14 @@
 #include "Chess/Moves.hh"
 #include "Chess/Magics.hh"
 
+extern MoveGenerator MoveGen;
+
 class EngineController {
     private:
         BoardThreadManager boardThreadManager;
-        MoveGenerator moveGenerator;
     public:
-        MoveGenerator GetMoveGenerator() { return moveGenerator; }
         BoardThreadManager GetBoardThreadManager() { return boardThreadManager; }
         void Initialize(){
-            moveGenerator.InitMagicBitboards();
         }
 };
 

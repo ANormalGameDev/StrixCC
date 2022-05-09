@@ -2,10 +2,21 @@
 #include "engine.hh"
 
 EngineController controller;
+MoveGenerator MoveGen;
 int main(){
-    controller.Initialize();
+    MoveGen.InitMagicBitboards();
     Board board = controller.GetBoardThreadManager().GetMainBoard();
-    board.Load("r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3");
-    std::vector<Move> moves = controller.GetMoveGenerator().GeneratePsuedoLegalMoves(board);
-    std::cout << moves.size() << "\n\n";
+    board.Load("rnbqkbnr/pp3ppp/2p1p3/3pP3/2PP4/8/PP3PPP/RNBQKBNR b KQkq - 0 4");
+    std::vector<Move> moves = MoveGen.GeneratePsuedoLegalMoves(board);
+    std::cout << moves.size() << "\n";
+    for (int i = 0; i < 64; i++){
+        if (i % 8 == 0) std::cout << "\n";
+        std::cout << (int)board.GetPieces()[i].type << " ";
+    }
+    std::cout << "\n";
+    for (int i = 0; i < 64; i++){
+        if (i % 8 == 0) std::cout << "\n";
+        std::cout << (int)board.GetPieces()[i].color << " ";
+    }
+    std::cout << "\n";
 }
