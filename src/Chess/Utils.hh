@@ -16,23 +16,14 @@ namespace StrixCC {
             for (int file = 0; file < 8; file++)
             {
                 int square = rank * 8 + file;
-                
                 if (!file)
-                    printf("  %d ", rank + 1);
-                
+                    printf(" %d ", rank + 1);
                 printf(" %d", GetBit(bitboard, square) ? 1 : 0);
-                
             }
-            
-            // print new line every rank
             printf("\n");
         }
-        
-        // print board files
-        printf("\n     a b c d e f g h\n\n");
-        
-        // print bitboard as unsigned decimal number
-        printf("     Bitboard: %llud\n\n", bitboard);
+        printf("\n    a b c d e f g h\n\n");
+        printf(" Bitboard: %llud\n\n", bitboard);
     }
 };
 
