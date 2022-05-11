@@ -1,5 +1,5 @@
-#ifndef ENGINE_HH
-#define ENGINE_HH
+#ifndef __ENGINE_HH
+#define __ENGINE_HH
 
 #include "Types.hh"
 #include "Utils.hh"

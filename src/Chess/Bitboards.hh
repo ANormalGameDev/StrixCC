@@ -1,5 +1,5 @@
-#ifndef BITBOARDS_HH
-#define BITBOARDS_HH
+#ifndef __BITBOARDS_HH
+#define __BITBOARDS_HH
 
 #include "Types.hh"
 #include "Utils.hh"

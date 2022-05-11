@@ -9,6 +9,11 @@ namespace StrixCC {
     constexpr void SetBit(uint64* bb, Square square){ (*bb) |= (1ULL << square); }
     constexpr void SetBit(uint64* bb, int square){ (*bb) |= (1ULL << square); }
 
+    constexpr Square ToSquare(int file, int rank){
+        if (file > 7 || file < 0 || rank > 7 || rank < 0) return Square::UNDEFINED;
+        else return (Square)(rank * 8 + file);
+    }
+
     constexpr void PrintBitboard(uint64 bitboard)
     {
         for (int rank = 0; rank < 8; rank++)

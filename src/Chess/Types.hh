@@ -1,12 +1,15 @@
-#ifndef TYPES_HH
-#define TYPES_HH
+#ifndef __TYPES_HH
+#define __TYPES_HH
 
 // The Types.hh header file contains every type/(type name) that StrixCC needs.
 // This header file should be included in every other header file except
 // "Prestored Magics.hh".
+// This header file also contains things that needs to be visible globally 
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
+#include <string>
 
 namespace StrixCC {
     typedef unsigned long long uint64;
@@ -17,6 +20,22 @@ namespace StrixCC {
 
     enum Color {
         NONE, WHITE, BLACK
+    };
+
+    struct Piece {
+        const PieceType type;
+        const Color color;
+        Piece(PieceType _type, Color _color) : type(_type), color(_color) {}
+    };
+
+    struct ModifiablePiece {
+        PieceType type;
+        Color color;
+        ModifiablePiece(){ type = PieceType::EMPTY; color = Color::NONE; }
+        ModifiablePiece(Piece piece){ type = piece.type; color = piece.color; }
+        ModifiablePiece(PieceType _type, Color _color){ type = _type; color = _color; }
+        void operator=(Piece& piece){ color = piece.color; type = piece.type; }
+        void Reset(){ color = Color::NONE; type = PieceType::EMPTY; }
     };
 
     enum Square : int {
@@ -31,12 +50,53 @@ namespace StrixCC {
         UNDEFINED
     };
 
+    // Relative to Black
+    enum Direction : int {
+        NORTH = -8, SOUTH = -NORTH,
+        EAST = 1, WEST = -EAST
+    };
+
     struct SMagic {
         uint64* Table;
         uint64 Mask;
         uint64 Magic;
         int Shift;
         constexpr size_t GetIndex(uint64 occupancy){ return (((occupancy & Mask) * Magic) >> Shift); }
+    };
+
+    enum MoveGenerationMode {
+        ALL, CHECKS_ONLY, CAPTURES_ONLY,
+        CHECKS_AND_CAPTURES_ONLY, 
+    };
+
+    enum MoveLegality{
+        LEGAL, PSEUDO_LEGAL,
+    };
+
+    enum MoveType {
+        STANDARD, CAPTURE, CHECK
+    };
+
+    struct Move {
+        const Square From;
+        const Square To;
+        const MoveType Type;
+        template<MoveType type>
+        Move(Square from, Square to) : From(from), To(to), Type(type){}
+    };
+
+    enum CastlingRights {
+        CR_NONE, KINGSIDE, QUEENSIDE, BOTH,
+    };
+
+    struct Board {
+        ModifiablePiece Pieces[64];
+        Color SideToMove = Color::WHITE;
+        Square EnPassantSquare = Square::UNDEFINED;
+        CastlingRights BRights = CR_NONE, WRights = CR_NONE;
+        int HalfMoveClock;
+        int FullMoveCount;
+        void LoadFEN(std::string FEN);
     };
 
     // Postfix increment and decrement operators for enum Square

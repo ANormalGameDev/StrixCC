@@ -1,5 +1,5 @@
 builddir = output
-objects = $(builddir)/main.o $(builddir)/Engine.o $(builddir)/Bitboards.o
+objects = $(builddir)/main.o $(builddir)/Engine.o $(builddir)/Bitboards.o $(builddir)/Board.o
 
 strixcc: $(objects)
 		g++ -pg -o strixcc.out $(objects)
@@ -13,6 +13,9 @@ $(builddir)/Bitboards.o: src/Chess/Bitboards.cc src/Chess/Bitboards.hh src/Chess
 
 $(builddir)/Engine.o: src/Chess/Engine.cc src/Chess/Engine.hh src/Chess/Types.hh src/Chess/Utils.hh
 		g++ -o$(builddir)/Engine.o -c src/Chess/Engine.cc
+
+$(builddir)/Board.o: src/Chess/Board.cc src/Chess/Types.hh src/Chess/Utils.hh
+		g++ -o$(builddir)/Board.o -c src/Chess/Board.cc
 
 clean:
 	rm $(objects)
