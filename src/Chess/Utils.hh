@@ -14,6 +14,11 @@ namespace StrixCC {
         else return (Square)(rank * 8 + file);
     }
 
+    constexpr int RankOf(Square square) { return square / 8; }
+    constexpr int RankOf(int square) { return square / 8; }
+    constexpr int FileOf(Square square) { return square % 8; }
+    constexpr int FileOf(int square) { return square % 8; }
+
     constexpr void PrintBitboard(uint64 bitboard)
     {
         for (int rank = 0; rank < 8; rank++)

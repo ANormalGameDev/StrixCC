@@ -4,6 +4,7 @@
 #include "Types.hh"
 #include "Utils.hh"
 #include "Bitboards.hh"
+#include "Moves.hh"
 
 namespace StrixCC {
     void Main();

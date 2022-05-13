@@ -3,6 +3,8 @@
 #include <sstream>
 
 namespace StrixCC {
+    Board MainBoard;
+
     Piece CharToPiece(char ch){
         Color color = islower(ch) ? Color::BLACK : Color::WHITE;
         switch(tolower(ch)){
@@ -54,6 +56,7 @@ namespace StrixCC {
             if (isdigit(ch)){
                 for (int i = 0; i < (ch - '0'); i++){
                     Pieces[posidx].Reset();
+                    Occupancy &= ~(1ULL << posidx);
                     posidx++;
                 }
             }
@@ -62,6 +65,7 @@ namespace StrixCC {
                 if (Pieces[posidx].type == PieceType::EMPTY){
                     printf("Invalid FEN Provided.\n"); exit(0);
                 }
+                Occupancy |= (1ULL << posidx);
                 posidx++;
             }
         }

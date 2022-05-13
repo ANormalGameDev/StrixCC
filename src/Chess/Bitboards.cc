@@ -10,6 +10,28 @@ namespace StrixCC {
         SMagic RMagics[64], BMagics[64];
         uint64 RAttacks[0x19000], BAttacks[0x1480];
 
+        // Mask Generation Functions for Slider Pieces
+        template<PieceType Type>
+        uint64 GenerateSliderMasks(Square square){
+            int r, f, pr = square / 8, pf = square % 8;
+
+            uint64 attacks = 0ULL;
+            if (Type == PieceType::ROOK){
+                for (r = pr + 1; r <= 6; r++) attacks |= (1ULL << (r * 8 + pf));
+                for (r = pr - 1; r >= 1; r--) attacks |= (1ULL << (r * 8 + pf));
+                for (f = pf + 1; f <= 6; f++) attacks |= (1ULL << (pr * 8 + f));
+                for (f = pf - 1; f >= 1; f--) attacks |= (1ULL << (pr * 8 + f));
+            }
+            else if (Type == PieceType::BISHOP){
+                for (r = pr - 1, f = pf - 1; r >= 1 && f >= 1; r--, f--) attacks |= (1ULL << (r * 8 + f));
+                for (r = pr + 1, f = pf - 1; r <= 6 && f >= 1; r++, f--) attacks |= (1ULL << (r * 8 + f));
+                for (r = pr + 1, f = pf + 1; r <= 6 && f <= 6; r++, f++) attacks |= (1ULL << (r * 8 + f));
+                for (r = pr - 1, f = pf + 1; r >= 1 && f <= 6; r--, f++) attacks |= (1ULL << (r * 8 + f));
+            }
+
+            return attacks;
+        }
+
         // Attacks Generation Functions for Slider Pieces
         template<PieceType Type>
         uint64 GenerateSliderAttacks(Square square, uint64 occupancy){
@@ -93,7 +115,7 @@ namespace StrixCC {
             for (Square square = Square::A1; square <= Square::H8; square++){
                 SMagic& Magic = Magics[square];
 
-                Magic.Mask = GenerateSliderAttacks<Type>(square, 0ULL) & ~(edges);
+                Magic.Mask = GenerateSliderMasks<Type>(square);
                 Magic.Shift = 64 - std::__popcount<u_int64_t>(Magic.Mask);
                 
                 Magic.Magic = Type == PieceType::ROOK ? _RMagics[square] : _BMagics[square];

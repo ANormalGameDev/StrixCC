@@ -50,7 +50,7 @@ namespace StrixCC {
         UNDEFINED
     };
 
-    // Relative to Black
+    // Relative to White
     enum Direction : int {
         NORTH = -8, SOUTH = -NORTH,
         EAST = 1, WEST = -EAST
@@ -65,8 +65,7 @@ namespace StrixCC {
     };
 
     enum MoveGenerationMode {
-        ALL, CHECKS_ONLY, CAPTURES_ONLY,
-        CHECKS_AND_CAPTURES_ONLY, 
+        LEGAL_ONLY, PSEUDO_LEGAL_ONLY
     };
 
     enum MoveLegality{
@@ -81,8 +80,7 @@ namespace StrixCC {
         const Square From;
         const Square To;
         const MoveType Type;
-        template<MoveType type>
-        Move(Square from, Square to) : From(from), To(to), Type(type){}
+        Move(Square from, Square to, MoveType type) : From(from), To(to), Type(type){}
     };
 
     enum CastlingRights {
@@ -96,8 +94,11 @@ namespace StrixCC {
         CastlingRights BRights = CR_NONE, WRights = CR_NONE;
         int HalfMoveClock;
         int FullMoveCount;
+        uint64 Occupancy = 0ULL;
         void LoadFEN(std::string FEN);
     };
+
+    extern Board MainBoard;
 
     // Postfix increment and decrement operators for enum Square
     //     sq++ <--
